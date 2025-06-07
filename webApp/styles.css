@@ -6,10 +6,9 @@
     --color-red:#D93636;
     --color-blue:#007BFF;
     --color-dark-blue:#2c3e50;
-
 }
 
-*{
+*,*::before,*::after{
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -19,23 +18,26 @@ body{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
 }
 header{
-    background-color: var(--color-dark-gray);
+    background-color: var(--color-black);
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 60px;
+    height: 10%;
 }
 
-.header_search-bar{
-    display: flex;;
+#header_search-bar{
+    display: flex;
+    align-items: center;
+    padding-left: 2.5%;
     width: 90%;
     height: 50%;
     background-color: var(--color-white);
+    border-radius: 5px;
 }
 
 main{
@@ -44,31 +46,37 @@ main{
     align-items:center;
     justify-content: center;
     width: 100%;
-    height: calc(100vh - 120px);
-    background-color: var(--color-gray);
+    height: calc(100% - 20%);
+    background-color: var(--color-dark-gray);
     gap: 36px;
 }
-.main_timer{
+.main_stopwatch{
     display:flex;
     align-items:center;
     justify-content:center;
     width: 210px;
     height: 60px;
-    background-color: var(--color-dark-blue);
+    background-color: var(--color-gray);
+    border-radius: 5px;
+}
+#stopwatch{
+    font-size: 3rem;
 }
 .main_micro-tape{
     width: 350px;
     height: 180px;
-    background-color: var(--color-white);
+    background-color: var(--color-gray);
+    border-radius: 5px;
 }
 .main_free-storage{
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 11px;
-    width: 90px;
+    font-size: 1rem;
+    width: 180px;
     height: 30px;
-    background-color: var(--color-dark-gray);
+    background-color: var(--color-gray);
+    border-radius: 5px;
 }
 .main_day-feature{
     display: flex;
@@ -76,21 +84,23 @@ main{
     align-items: center;
     flex-direction: row;
     width: 415px;
+    
 }
-.main_day{
+.main_day-feature-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 120px;
     height: 60px;
-    background-color: var(--color-dark-blue);
-}
-.main_day-time{
-    width: 120px;
-    height: 60px;
-    background-color: var(--color-dark-blue)
+    background-color: var(--color-gray);
+    border-radius: 5px;
+    font-size: 1.6rem;
 }
 .main_audio-waveform{
     width: 350px;
     height: 100px;
-    background-color: var(--color-white);
+    background-color: var(--color-gray);
+    border-radius: 5px;
 }
 .main_start-recording{
     display:flex;
@@ -101,9 +111,13 @@ main{
 
 }
     .main_recording-button{
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 60px;
         height: 60px;
-        background-color: var(--color-dark-blue);
+        border-radius: 5px;
+        background-color: var(--color-gray);
     }
 
 footer{
@@ -111,12 +125,15 @@ footer{
     align-items: center;
     justify-content: space-evenly;
     width: 100%;
-    height: calc(60px);
-    background-color: var(--color-dark-gray);
+    height: 10%;
+    background-color: var(--color-black);
 }
 
 .footer_buttons{
-    background-color: var(--color-black);
+    background-color: var(--color-gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 40px;
     width:  80px;
     border-radius: 5px;

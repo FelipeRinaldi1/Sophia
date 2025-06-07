@@ -8,28 +8,38 @@
 </head>
 <body>
     <header>
-        <div class="header_search-bar"></div>
+        <input type="text" id="header_search-bar" name ="search_bar" placeholder="Search Tapes" ></input>
     </header>
     <main>
-        <div class="main_timer">main_timer</div>
-        <div class="main_micro-tape">main_micro-tape</div>
-        <div class="main_free-storage">main_free-storage</div>
+        <div class="main_stopwatch">
+            <p id="stopwatch">00:00:00</p>
+        </div>
+        <div class="main_micro-tape"></div>
+        <div class="main_free-storage">
+            <p>Free storage: 000.00gb</p>
+        </div>
         <div class="main_day-feature">
-            <div class="main_day">main_day</div>
-            <div class="main_day-time">main_day-time</div>
+            <div class="main_day-feature-container" >
+                <p id="currentDay">00/00/00</p>
+            </div>
+            <div class="main_day-feature-container" >
+                <p id="currentTime">00:00pm</p>
+            </div>
         </div>
         <div class="main_audio-waveform"></div>
         <div class="main_start-recording">
-            <div class="main_recording-button" id="main_recording-exclude"></div>
-            <div class="main_recording-button" id="main_recording-toggle"></div>
-            <div class="main_recording-button" id="main_recording-confirm"></div>
+            <div class="main_recording-button" id="main_recording-exclude">exclude</div>
+            <div class="main_recording-button" id="main_recording-toggle">start</div>
+            <div class="main_recording-button" id="main_recording-confirm">confirm</div>
         </div>
     </main>
     <footer>
-        <div class="footer_buttons"></div>
-        <div class="footer_buttons"></div>
-        <div class="footer_buttons"></div>
+        <div class="footer_buttons">Record</div>
+        <div class="footer_buttons">Config</div>
+        <div class="footer_buttons">Tapes</div>
     </footer>
-    <script src="script.js"></script>
+
+    <script type="module" src="script.js"></script>
+
 </body>
 </html>
