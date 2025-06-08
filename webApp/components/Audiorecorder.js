@@ -1,28 +1,57 @@
-class AudioRecorder{
-    #isRunning=null;
+class AudioRecorder extends EventTarget{
+    #isRunning=false;
     #inputAudioDevice= null;
     #audioData = [];
-    constructor(){}
+    #audioURL = null
+    #mediaStream=null;
 
+    constructor(){
+        super()
+    }
 
+    getMediaStream(){
+        return this.#mediaStream;
+    }
+
+    getAudioData(){}
+
+    getAudioURL(){
+        return this.#audioURL;
+    }
 
     async createMediaRecorder(){
-        if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
+        if(!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)){
+        console.log("Api não suportada")
+        window.alert("Api nao suportada")
+        }
+        try{
+            const fluxoAudio = await navigator.mediaDevices.getUserMedia({audio:true})
+            this.#mediaStream = fluxoAudio;
+            const mediaRecorder = new MediaRecorder(fluxoAudio)
 
-            fluxoAudio = await navigator.mediaDevices.getUserMedia({audio:true})
-            .then((fluxoAudio)=>{
-                this.#inputAudioDevice = new MediaRecorder(fluxoAudio)
-                console.log("getUserMediaFuncionou")
-                
-                #inputAudioDevice.ondataavailable = (e) =>{
-                    this.#audioData.push(e.data)
+            mediaRecorder.ondataavailable=(e)=>{
+                if (e.data.size > 0){
+                    this.#audioData.push(e.data);
                 }
-            })
 
-            .catch((error)=>{
-                console.log(`GetuserMediaError: ${error}`)
-            })
-        }else{console.log("GetuserMedia nao é suportado")}
+            };
+
+            mediaRecorder.onstop = (e) =>{
+                const blob = new Blob(this.#audioData, {type:"audio/ogg; codecs=opus"})
+                this.#audioURL = window.URL.createObjectURL(blob);
+                this.#audioData = []
+
+                this.dispatchEvent(new CustomEvent('stop', {
+                    detail: {url: this.#audioURL, blob: blob}
+                }));
+            }
+
+            this.#inputAudioDevice = mediaRecorder
+            this.dispatchEvent(new CustomEvent('ready'))
+            
+        }catch(error){
+            this.dispatchEvent(new CustomEvent('error', {detail: error.message}))
+        }
     }
 
     startAudioRecorder(){
@@ -34,8 +63,10 @@ class AudioRecorder{
             window.alert("Gravação em andamento")
             return;
         }
+        this.resetAudioRecorder();
         this.#isRunning = true
         this.#inputAudioDevice.start()
+        this.dispatchEvent(new CustomEvent('start'))
     }
     
     stopAudioRecorder(){
@@ -45,6 +76,34 @@ class AudioRecorder{
         }
         this.#isRunning = false
         this.#inputAudioDevice.stop()
-        
+    }
+    pauseAudioRecorder(){
+        if(this.#isRunning && this.#inputAudioDevice){
+            this.#isRunning = false
+            this.#inputAudioDevice.pause()
+        }
+        else{
+            return;
+        }
+    }
+    resumeAudioRecorder(){
+        if(!this.#isRunning && this.#inputAudioDevice){
+            this.#isRunning= true;
+            this.#inputAudioDevice.resume();
+        }
+        else{return;}
+    }
+    resetAudioRecorder(){
+        this.#isRunning = false
+        this.#audioData =[]
+        this.#audioURL = null
+    }
+    releaseMic(){
+        if (this.#mediaStream){
+            this.#mediaStream.getTracks().forEach(track=>track.stop())}
+        this.#inputAudioDevice = null
+        this.#audioURL = null
+        this.#isRunning = false
+        console.log("Mic liberado")
     }
 }
